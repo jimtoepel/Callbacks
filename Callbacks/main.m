@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "BNRLogger.h"
 
+typedef void (^TimeZoneChangeBlock) (NSNotification *);
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
 
@@ -19,6 +21,17 @@ int main(int argc, const char * argv[]) {
                 selector:@selector(zoneChange:)
                     name:NSSystemTimeZoneDidChangeNotification
                   object:nil];
+        
+// Add block call here.
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName:(NSSystemTimeZoneDidChangeNotification)
+                                                          object:nil
+                                                           queue:nil
+                                                      usingBlock:^(NSNotification *note)
+                                                        {
+                                                            NSLog(@"The system time zone has changed!");
+                                                        }];
+        
         
         
         NSURL *url = [NSURL URLWithString:@"http://www.gutenberg.org/cache/epub/205/pg205.txt"];
